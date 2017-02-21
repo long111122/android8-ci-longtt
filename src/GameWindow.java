@@ -29,16 +29,19 @@ public class GameWindow extends Frame {
     private boolean moveRight = false;
     private boolean moveUp = false;
     private boolean moveDown = false;
+    private Enermy enermy;
+    private PlayerBullet playerBullet;
 
     Thread thread;
 
-    private ArrayList<Bullet> bullets;
-    private Bullet bullet;
+    private ArrayList<PlayerBullet> bullets;
+//    private Bullet bullet;
     private Timer timer;
 
     public GameWindow(){
         setVisible(true);
         setSize(400,600);
+        bullets = new ArrayList<>();
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -66,6 +69,7 @@ public class GameWindow extends Frame {
         background = loadImage("resources/background.png");
         player = loadImage("resources/plane2.png");
         island = loadImage("resources/island.png");
+
         //2: Draw image
         update(getGraphics());
         //repaint();
@@ -84,39 +88,38 @@ public class GameWindow extends Frame {
 //                        planeX += 5;
                         repaint();
                     }
-                    if (e.getKeyCode() == KeyEvent.VK_LEFT)  {
+                    else if (e.getKeyCode() == KeyEvent.VK_LEFT)  {
                         //move plane to right
                         moveLeft = true;
 //                        planeX -= 5;
 //                        System.out.println(planeX);
                         repaint();
                     }
-                    if (e.getKeyCode() == KeyEvent.VK_UP) {
+                    else if (e.getKeyCode() == KeyEvent.VK_UP) {
                         //move plane to right
                         moveUp = true;
 //                        planeY -= 5;
 //                        System.out.println(planeY);
                         repaint();
                     }
-                    if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                         //move plane to right
                         moveDown = true;
 //                        planeY += 5;
 //                        System.out.println(planeY);
                         repaint();
                     }
-
-                movePlane();
-
-                    if(e.getKeyCode() == KeyEvent.VK_SPACE){
+                    else if(e.getKeyCode() == KeyEvent.VK_SPACE){
                         //TODO : shoot bullets
-
-                        isShoot = true;
-                        ShootBullet shoot = new ShootBullet();
-                        shoot.start();
-
+                        playerBullet = new PlayerBullet();
+                        playerBullet.img = loadImage("resources/bullet.png");
+                        playerBullet.bulletX = planeX + 24/2;
+                        playerBullet.bulletY = planeY - 35 ;
+                        bullets.add(playerBullet);
+                        
                         repaint();
                     }
+                movePlane();
             }
 
             @Override
@@ -146,7 +149,7 @@ public class GameWindow extends Frame {
 
 
         });
-
+        EnermyCreate();
         thread = new Thread(new Runnable(){
             @Override
             public void run() {
@@ -156,7 +159,10 @@ public class GameWindow extends Frame {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+
                     repaint();
+                    if(enermy != null)enermy.Move(3);
+                    if(playerBullet != null) playerBullet.move();
                 }
             }
         });
@@ -174,20 +180,20 @@ public class GameWindow extends Frame {
         thread.start();
     }
 
-    public class ShootBullet extends Thread {
-        @Override
-        public void run() {
-            Image img = loadImage("resources/bullet.png");
-            bullet = new Bullet(planeX + 35 / 2, planeY, img);
-            bullets = new ArrayList<>();
-            bullets.add(bullet);
-           for (int i = 0; i <= bullets.size();i++){
-               bullets.get(i).move();
-               repaint();
-           }
-
-        }
-    }
+//    public class ShootBullet extends Thread {
+//        @Override
+//        public void run() {
+//            Image img = loadImage("resources/bullet.png");
+//            bullet = new Bullet(planeX + 35 / 2, planeY, img);
+//            bullets = new ArrayList<>();
+//            bullets.add(bullet);
+//           for (int i = 0; i <= bullets.size();i++){
+//               bullets.get(i).move();
+//               repaint();
+//           }
+//
+//        }
+//    }
 
     private void movePlane(){
 
@@ -218,16 +224,33 @@ public class GameWindow extends Frame {
     }
 
 
+    private void EnermyCreate(){
+        enermy = new Enermy(30,30,loadImage("resources/enemy_plane_white_3.png"));
+
+    }
+
+//    private void destroy(){
+//        if(enermy.getEnermyY() + enermy.getImg().getHeight())
+//    }
+
     @Override
     public void update(Graphics g) {
         if(backBufferImage != null) {
             backGraphics = backBufferImage.getGraphics();
 
             backGraphics.drawImage(background, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
-//        g.drawImage(player,(400-35)/2,600-28,35,28,null);
 
             backGraphics.drawImage(island, 60, 300, 50, 50, null);
+            //player
             backGraphics.drawImage(player, planeX, planeY, 35, 28, null);
+            //enemy
+
+            //bullet
+            if(playerBullet != null) {
+                backGraphics.drawImage(playerBullet.img, playerBullet.bulletX, playerBullet.bulletY, 13, 30, null);
+
+            }
+            backGraphics.drawImage(enermy.getImg(),enermy.getEnermyX(),enermy.getEnermyY(),32,32,null);
             g.drawImage(backBufferImage, 0, 0, null);
         }
                                                                                         }
