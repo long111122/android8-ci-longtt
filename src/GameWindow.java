@@ -1,25 +1,41 @@
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by EDGY on 2/19/2017.
  */
 public class GameWindow extends Frame {
+    private static final int SPEED = 10;
+    private static final int SCREEN_HEIGHT = 600;
+    private static final int SCREEN_WIDTH = 400;
+
+    private BufferedImage backBufferImage;
+    private Graphics backGraphics;
+
     Image background;
     Image player;
     Image island;
-    Image bullet;
     boolean isShoot = false;
-    private int planeX = (400-35)/2;
-    private int planeY = 600-35;
-    private int bulletX;
-    private int bulletY;
+    private int planeX = SCREEN_WIDTH /2;
+    private int planeY = SCREEN_HEIGHT - 35;
+    private int countBullet;
+    private boolean moveLeft = false;
+    private boolean moveRight = false;
+    private boolean moveUp = false;
+    private boolean moveDown = false;
+
+    Thread thread;
+
+    private ArrayList<Bullet> bullets;
+    private Bullet bullet;
+    private Timer timer;
+
     public GameWindow(){
         setVisible(true);
         setSize(400,600);
@@ -50,7 +66,6 @@ public class GameWindow extends Frame {
         background = loadImage("resources/background.png");
         player = loadImage("resources/plane2.png");
         island = loadImage("resources/island.png");
-        bullet = loadImage("resources/bullet.png");
         //2: Draw image
         update(getGraphics());
         //repaint();
@@ -63,64 +78,131 @@ public class GameWindow extends Frame {
             @Override
             public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
-                    if (e.getKeyCode() == KeyEvent.VK_RIGHT && planeX <= (400-35)) {
+                    if (e.getKeyCode() == KeyEvent.VK_RIGHT)  {
                         //move plane to right
-                        planeX += 10;
+                        moveRight = true;
+//                        planeX += 5;
                         repaint();
                     }
-                    if (e.getKeyCode() == KeyEvent.VK_LEFT && planeX >= 0) {
+                    if (e.getKeyCode() == KeyEvent.VK_LEFT)  {
                         //move plane to right
-                        planeX -= 10;
+                        moveLeft = true;
+//                        planeX -= 5;
 //                        System.out.println(planeX);
                         repaint();
                     }
-                    if (e.getKeyCode() == KeyEvent.VK_UP && planeY >= 35) {
+                    if (e.getKeyCode() == KeyEvent.VK_UP) {
                         //move plane to right
-                        planeY -= 10;
+                        moveUp = true;
+//                        planeY -= 5;
 //                        System.out.println(planeY);
                         repaint();
                     }
-                    if (e.getKeyCode() == KeyEvent.VK_DOWN && planeY <= (600-35-10)) {
+                    if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                         //move plane to right
-                        planeY += 10;
+                        moveDown = true;
+//                        planeY += 5;
 //                        System.out.println(planeY);
                         repaint();
                     }
+
+                movePlane();
 
                     if(e.getKeyCode() == KeyEvent.VK_SPACE){
                         //TODO : shoot bullets
+
                         isShoot = true;
-                        while(bulletY > 0) {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                bulletX = (planeX + 35 / 2);
-                                bulletY = planeY - 10;
-                                System.out.println(planeY);
-                                repaint();
-                                try {
-                                    Thread.sleep(10000);
-                                } catch (InterruptedException e1) {
-                                    e1.printStackTrace();
-                                }
-                            }
-                        }).start();
+                        ShootBullet shoot = new ShootBullet();
+                        shoot.start();
 
-
-                        }
-
+                        repaint();
                     }
-                }
-
+            }
 
             @Override
             public void keyReleased(KeyEvent e) {
                 super.keyReleased(e);
+                if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                    //move plane to right
+                    moveRight = false;
 
+                }
+                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                    //move plane to right
+                    moveLeft = false;
+
+                }
+                if (e.getKeyCode() == KeyEvent.VK_UP ) {
+                    //move plane to right
+                    moveUp = false;
+
+                }
+                if (e.getKeyCode() == KeyEvent.VK_DOWN ) {
+                    //move plane to right
+                    moveDown = false;
+
+                }
             }
 
 
         });
+
+        thread = new Thread(new Runnable(){
+            @Override
+            public void run() {
+                while(true){
+                    try {
+                        Thread.sleep(17);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    repaint();
+                }
+            }
+        });
+
+
+        backBufferImage = new BufferedImage(
+                SCREEN_WIDTH,
+                SCREEN_HEIGHT,
+                BufferedImage.TYPE_INT_ARGB);
+
+
+    }
+
+    public void start(){
+        thread.start();
+    }
+
+    public class ShootBullet extends Thread {
+        @Override
+        public void run() {
+            Image img = loadImage("resources/bullet.png");
+            bullet = new Bullet(planeX + 35 / 2, planeY, img);
+            bullets = new ArrayList<>();
+            bullets.add(bullet);
+           for (int i = 0; i <= bullets.size();i++){
+               bullets.get(i).move();
+               repaint();
+           }
+
+        }
+    }
+
+    private void movePlane(){
+
+        if(moveRight && planeX <= (SCREEN_WIDTH-35)){
+            planeX += SPEED;
+        }
+        if(moveLeft && planeX >= 0){
+            planeX -= SPEED;
+        }
+        if(moveUp  && planeY >= 35){
+            planeY -= SPEED;
+        }
+        if(moveDown  && planeY <= (SCREEN_HEIGHT-35-10)){
+            planeY += SPEED;
+        }
     }
 
 
@@ -138,17 +220,20 @@ public class GameWindow extends Frame {
 
     @Override
     public void update(Graphics g) {
-        g.drawImage(background,0,0,400,600, null);
+        if(backBufferImage != null) {
+            backGraphics = backBufferImage.getGraphics();
+
+            backGraphics.drawImage(background, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
 //        g.drawImage(player,(400-35)/2,600-28,35,28,null);
 
-        g.drawImage(island,60,300,50,50,null);
-        g.drawImage(player,planeX,planeY,35,28,null);
-
-        if(isShoot == true) {
-                g.drawImage(bullet, bulletX, bulletY, 13, 33, null);
-            isShoot = false;
+            backGraphics.drawImage(island, 60, 300, 50, 50, null);
+            backGraphics.drawImage(player, planeX, planeY, 35, 28, null);
+            g.drawImage(backBufferImage, 0, 0, null);
         }
+                                                                                        }
+
+
     }
 
 
-}
+
