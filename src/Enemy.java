@@ -3,32 +3,31 @@ import java.awt.*;
 /**
  * Created by EDGY on 2/21/2017.
  */
-public class Enermy {
-    private int enermyX;
-    private int enermyY;
+public class Enemy {
+    private int enemyX;
+    private int enemyY;
     private Image img;
 
-
-    public Enermy(int enermyX, int enermyY, Image img) {
-        this.enermyX = enermyX;
-        this.enermyY = enermyY;
+    public Enemy(int enemyX, int enemyY, Image img) {
+        this.enemyX = enemyX;
+        this.enemyY = enemyY;
         this.img = img;
     }
 
     public int getEnermyX() {
-        return enermyX;
+        return enemyX;
     }
 
     public void setEnermyX(int enermyX) {
-        this.enermyX = enermyX;
+        this.enemyX = enermyX;
     }
 
     public int getEnermyY() {
-        return enermyY;
+        return enemyY;
     }
 
     public void setEnermyY(int enermyY) {
-        this.enermyY = enermyY;
+        this.enemyY = enermyY;
     }
 
     public Image getImg() {
@@ -40,7 +39,7 @@ public class Enermy {
     }
 
     public void Move(int speed){
-        this.enermyY += speed;
+        this.enemyY += speed;
     }
 
 }
