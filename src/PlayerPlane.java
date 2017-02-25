@@ -4,8 +4,8 @@ import java.awt.*;
  * Created by EDGY on 2/24/2017.
  */
 public class PlayerPlane {
-    private int planeX;
-    private int planeY;
+    public int planeX;
+    public int planeY;
     private int moveX;
     private int moveY;
     private Image img;
@@ -40,9 +40,12 @@ public class PlayerPlane {
         this.moveY = moveY;
     }
 
-    public void move(){
-        planeX += moveX;
+    public void moveUpDown(){
         planeY += moveY;
+    }
+
+    public void moveRightLeft(){
+        planeX += moveX;
     }
 
     public void draw(Graphics g){

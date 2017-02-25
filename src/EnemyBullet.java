@@ -7,7 +7,7 @@ public class EnemyBullet {
     private int bulletX;
     private int bulletY;
     private int power;
-    private int speed = 100;
+    private int speed = 3;
     private Image img;
 
     public EnemyBullet(int bulletX, int bulletY, Image img) {
@@ -57,7 +57,11 @@ public class EnemyBullet {
     }
 
     public void move(){
-        bulletY += speed;
-        bulletX += 5;
+        bulletY += 3.5;
+        bulletX += 0;
+    }
+
+    public void draw(Graphics g){
+        g.drawImage(img, bulletX, bulletY, 30,30,null);
     }
 }
