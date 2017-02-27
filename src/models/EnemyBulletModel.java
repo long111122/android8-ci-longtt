@@ -39,12 +39,23 @@ public class EnemyBulletModel {
      *
      * @param status
      * 1 : AUTO
-     *
+     * 2 : LEFT TO RIGHT
+     * 3 : RIGHT TO LEFT
      */
     public void run(int status){
         switch (status){
             case 1 :
                 bulletY += SPEED;
+                break;
+
+            case 2 :
+                bulletY += SPEED;
+                bulletX += SPEED/3;
+                break;
+
+            case 3 :
+                bulletY += SPEED;
+                bulletX -= SPEED;
                 break;
         }
     }

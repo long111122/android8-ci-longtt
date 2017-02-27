@@ -55,11 +55,15 @@ public class EnemyModel {
             case 1 :
                 enemyY += SPEED;
                 break;
+
+            case 2 :
+
+                break;
         }
     }
 
     public void addBullet(EnemyBulletController enemyBullet){
-        if(enemyY > height*2) {
+        if(enemyY > height) {
             bullets.add(enemyBullet);
         }
     }

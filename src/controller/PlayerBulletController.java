@@ -22,10 +22,10 @@ public class PlayerBulletController {
         this.view = view;
     }
 
-    public PlayerBulletController(int x, int y){
+    public PlayerBulletController(int x, int y, Image img){
         this(
                 new PlayerBulletModel(x,y,7,15),
-                new PlayerBulletView(Utils.loadImage("resources/bullet.png")));
+                new PlayerBulletView(img));
     }
 
     public void run(){

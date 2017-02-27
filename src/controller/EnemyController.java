@@ -18,8 +18,8 @@ public class EnemyController {
         this.view = view;
     }
 
-    public EnemyController(int x, int y){
-        this(new EnemyModel(x,y,30,30),new EnemyView(Utils.loadImage("resources/enemy_plane_white_3.png")));
+    public EnemyController(int x, int y, Image img){
+        this(new EnemyModel(x,y,30,30),new EnemyView(img));
     }
 
     //GETTER model
