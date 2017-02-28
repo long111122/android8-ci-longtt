@@ -11,8 +11,8 @@ public class BackgroundModel {
     private int y1;
     private int y2;
     private static int SPEED = 1;
-    private int width = GameWindow.getScreenWidth();
-    private int height = GameWindow.getScreenHeight();
+    private int width = GameWindow.SCREEN_WIDTH;
+    private int height = GameWindow.SCREEN_HEIGHT;
 
     public int getX1() {
         return x1;

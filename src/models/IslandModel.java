@@ -38,7 +38,7 @@ public class IslandModel {
 
     public void setDefaultLocation(){
         islandY = 0;
-        islandX = Utils.RandomAll(GameWindow.getScreenWidth()-width*2,0);
+        islandX = Utils.RandomAll(GameWindow.SCREEN_WIDTH-width*2,0);
     }
 
     public void run(){

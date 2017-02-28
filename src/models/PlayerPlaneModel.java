@@ -46,7 +46,7 @@ public class PlayerPlaneModel {
 
             case 2 :
                 //move down
-                if(planeY + SPEED < GameWindow.getScreenHeight() - height)
+                if(planeY + SPEED < GameWindow.SCREEN_HEIGHT - height)
                 planeY += SPEED;
                 break;
 
@@ -59,7 +59,7 @@ public class PlayerPlaneModel {
 
             case 4 :
                 //move right
-                if(planeX + SPEED < GameWindow.getScreenWidth() - width) {
+                if(planeX + SPEED < GameWindow.SCREEN_WIDTH - width) {
                     planeX += SPEED;
                 }
                 break;

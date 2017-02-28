@@ -18,17 +18,9 @@ import java.util.Iterator;
  */
 public class GameWindow extends Frame {
     private static final int SPEED = 3;
-    private static final int SCREEN_HEIGHT = 600;
-    private static final int SCREEN_WIDTH = 400;
+    public static final int SCREEN_HEIGHT = 600;
+    public static final int SCREEN_WIDTH = 400;
     private static final double AOT = 60.0;
-
-    public static int getScreenHeight() {
-        return SCREEN_HEIGHT;
-    }
-
-    public static int getScreenWidth() {
-        return SCREEN_WIDTH;
-    }
 
     private BufferedImage backBufferImage;
     private Graphics backGraphics;
@@ -115,7 +107,7 @@ public class GameWindow extends Frame {
                 double gamma = 0;
                 int countEnemy = 0;
                 int count = 0;
-                int count1 = 0;
+                int countIsland = 0;
                 int random = 0;
                 while(true){
                     background.run();
@@ -151,11 +143,10 @@ public class GameWindow extends Frame {
 //                        System.out.println(countEnemy);
                         delta-=delayEnemyMove;
                     }
-                    now = getNow();
-                    alpha += (now - lastTime);
-                    if(alpha >= delayIsland){
+                   countIsland++;
+                    if(countIsland >= Utils.RandomAll(1000,200)){
                         IslandCreate();
-                        alpha -= delayIsland;
+                        countIsland = 0;
                     }
                     now = getNow();
                     gamma += (now - lastTime2);
@@ -300,8 +291,8 @@ public class GameWindow extends Frame {
         }
     }
 
-    private void IslandCreate(){
-        if(islands.size() < 4) {
+    private void IslandCreate() {
+        if (islands.size() < 4) {
             islands.add(new IslandController(Utils.RandomAll(SCREEN_WIDTH - 50, 0), 0));
         }
     }
@@ -310,6 +301,7 @@ public class GameWindow extends Frame {
         Iterator<EnemyController> enemyItr = enemies.iterator();
         Iterator<PlayerBulletController> playerBulletItr = bullets.iterator();
         if(bullets.size() == 5){
+
 
         } else {
             while (enemyItr.hasNext()) {
@@ -429,8 +421,12 @@ public class GameWindow extends Frame {
     //load image with path
 
 
-
-
+    /**
+     *
+     * @param typeEnemy
+     * 1 : WHITE ENEMY PLANE
+     * 2 : YELLOW ENEMY PLANE
+     */
     private void EnemyCreate(int typeEnemy){
         //rd.nextInt(SCREEN_WIDTH - 80 + 1)
         //
@@ -449,7 +445,6 @@ public class GameWindow extends Frame {
         if(backBufferImage != null) {
             backGraphics = backBufferImage.getGraphics();
             background.draw(backGraphics);
-
 
             for (IslandController island : islands) {
                 island.draw(backGraphics);
