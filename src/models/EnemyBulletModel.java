@@ -3,36 +3,13 @@ package models;
 /**
  * Created by EDGY on 2/27/2017.
  */
-public class EnemyBulletModel {
-    private int bulletX;
-    private int bulletY;
-    private int width;
-    private int height;
-    private int power;
-    private static int SPEED = 4;
+public class EnemyBulletModel extends GameModel{
+    private static int SPEED = 8;
+    public static int WIDTH = 9;
+    public static int HEIGHT = 9;
 
-    //ctor
-    public EnemyBulletModel(int bulletX, int bulletY, int width, int height) {
-        this.bulletX = bulletX;
-        this.bulletY = bulletY;
-        this.width = width;
-        this.height = height;
-    }
-
-    public int getBulletX() {
-        return bulletX;
-    }
-
-    public int getBulletY() {
-        return bulletY;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
+    public EnemyBulletModel(int x, int y) {
+        super(x, y, WIDTH, HEIGHT);
     }
 
     /**
@@ -45,17 +22,17 @@ public class EnemyBulletModel {
     public void run(int status){
         switch (status){
             case 1 :
-                bulletY += SPEED;
+                y += SPEED;
                 break;
 
             case 2 :
-                bulletY += SPEED;
-                bulletX += SPEED/3;
+                y += SPEED;
+                x += SPEED/3;
                 break;
 
             case 3 :
-                bulletY += SPEED;
-                bulletX -= SPEED;
+                y += SPEED;
+                x -= SPEED;
                 break;
         }
     }

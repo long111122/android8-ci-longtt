@@ -2,45 +2,20 @@ package models;
 
 import controller.EnemyBulletController;
 import gui.GameWindow;
+import util.Utils;
 
 import java.util.ArrayList;
 
 /**
  * Created by EDGY on 2/27/2017.
  */
-public class EnemyModel {
-    private int enemyX;
-    private int enemyY;
-    private int width;
-    private int height;
-    private ArrayList<EnemyBulletController> bullets = new ArrayList<>();
-    private static final int SPEED = 2;
+public class EnemyModel extends GameModel{
+    private static final int SPEED = 3;
+    public static int WIDTH = 35;
+    public static int HEIGHT = 30;
 
-    public EnemyModel(int enemyX, int enemyY, int width, int height) {
-        this.enemyX = enemyX;
-        this.enemyY = enemyY;
-        this.width = width;
-        this.height = height;
-    }
-
-    public int getEnemyX() {
-        return enemyX;
-    }
-
-    public int getEnemyY() {
-        return enemyY;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public ArrayList<EnemyBulletController> getBullets() {
-        return bullets;
+    public EnemyModel(int x, int y) {
+        super(x, y, WIDTH, HEIGHT);
     }
 
     /**
@@ -53,18 +28,16 @@ public class EnemyModel {
     public void run(int status){
         switch (status){
             case 1 :
-                enemyY += SPEED;
+                y += SPEED;
                 break;
-
             case 2 :
-
+                y += SPEED*2;
+                x += SPEED*2;
                 break;
-        }
-    }
-
-    public void addBullet(EnemyBulletController enemyBullet){
-        if(enemyY > height) {
-            bullets.add(enemyBullet);
+            case 3 :
+                y += SPEED*2;
+                x -= SPEED*2;
+                break;
         }
     }
 }

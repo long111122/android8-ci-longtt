@@ -4,6 +4,8 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 /**
@@ -23,5 +25,10 @@ public class Utils {
     public static int RandomAll(int max, int min){
         Random rd = new Random();
         return rd.nextInt(max - min + 1) + min;
+    }
+
+    public static Image RandomImage(ArrayList<String> urls){
+        int random = RandomAll(urls.size()-1,0);
+        return loadImage(urls.get(random));
     }
 }

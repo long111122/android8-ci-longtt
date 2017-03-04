@@ -1,42 +1,41 @@
 package controller;
 
+import models.GameModel;
 import models.IslandModel;
 import util.Utils;
+import view.GameView;
 import view.IslandView;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Created by EDGY on 2/27/2017.
  */
-public class IslandController {
-    private IslandModel model;
-    private IslandView view;
-
-    public IslandController(IslandModel model, IslandView view) {
-        this.model = model;
-        this.view = view;
+public class IslandController extends GameController{
+    public IslandController(GameModel model, GameView view) {
+        super(model, view);
+//        this.urlImage = urlImage;
     }
 
-    public IslandController(int x, int y) {
-        this(new IslandModel(x,y,50,50), new IslandView());
-    }
-
-    //GETTER model
-    public IslandModel getModel() {
-        return model;
+    public IslandController(int x, int y, Image img) {
+        this(new IslandModel(x,y), new IslandView(img));
     }
 
     public void setDefaultLocation(){
-        model.setDefaultLocation();
+        if(model instanceof IslandModel) {
+            ((IslandModel) model).setDefaultLocation();
+        }
     }
 
-    public void run(){
-        model.run();
+    @Override
+    public void run(int status){
+       if(model instanceof IslandModel){
+           ((IslandModel) model).run();
+       }
     }
 
     public void draw(Graphics g){
         view.draw(g,model);
     }
-
 }

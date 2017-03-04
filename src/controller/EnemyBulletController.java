@@ -1,35 +1,32 @@
 package controller;
 
 import models.EnemyBulletModel;
+import models.GameModel;
 import util.Utils;
 import view.EnemyBulletView;
+import view.GameView;
 
 import java.awt.*;
 
 /**
  * Created by EDGY on 2/27/2017.
  */
-public class EnemyBulletController {
-    private EnemyBulletModel model;
-    private EnemyBulletView view;
-
-    public EnemyBulletController(EnemyBulletModel model, EnemyBulletView view) {
-        this.model = model;
-        this.view = view;
+public class EnemyBulletController extends GameController{
+    public EnemyBulletController(GameModel model, GameView view) {
+        super(model, view);
     }
+
 
     public EnemyBulletController(int x, int y){
-        this(new EnemyBulletModel(x,y,9,9), new EnemyBulletView(Utils.loadImage("resources/bullet-round.png")));
-    }
-
-    //GETTER model
-    public EnemyBulletModel getModel() {
-        return model;
+        this(new EnemyBulletModel(x,y), new EnemyBulletView(Utils.loadImage("resources/bullet-round.png")));
     }
 
     //shoot bullet
-    public void run(int status){
-        model.run(1);
+    @Override
+    public void run(int status) {
+        if(model instanceof  EnemyBulletModel){
+            ((EnemyBulletModel) model).run(status);
+        }
     }
 
     public void draw(Graphics g){

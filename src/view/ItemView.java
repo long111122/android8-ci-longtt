@@ -7,14 +7,9 @@ import java.awt.*;
 /**
  * Created by EDGY on 2/27/2017.
  */
-public class ItemView {
-    Image img;
+public class ItemView extends GameView{
 
     public ItemView(Image img) {
-        this.img = img;
-    }
-
-    public void draw(Graphics g, ItemModel model){
-        g.drawImage(img,model.getX(),model.getY(),model.getWidth(),model.getHeight(),null);
+        super(img);
     }
 }
