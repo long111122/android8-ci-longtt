@@ -31,17 +31,4 @@ public class Utils {
         int random = RandomAll(urls.size()-1,0);
         return loadImage(urls.get(random));
     }
-
-    public static int getWidth(String img){
-        return loadImage(img).getWidth(null);
-    }
-
-    public static int getHeight(String img){
-        return loadImage(img).getHeight(null);
-    }
-
-    //current time
-    public static long getNow(){
-        return System.currentTimeMillis();
-    }
 }

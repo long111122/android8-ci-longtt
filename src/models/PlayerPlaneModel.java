@@ -1,6 +1,5 @@
 package models;
 
-import controller.player.PlayerRun;
 import gui.GameWindow;
 
 /**
@@ -10,34 +9,37 @@ public class PlayerPlaneModel extends GameModel{
     private static final int SPEED = 5;
     public static final int WIDTH = 35;
     public static final int HEIGHT = 30;
-    protected int hp = 10;
 
     public PlayerPlaneModel(int x, int y) {
         super(x, y, WIDTH, HEIGHT);
     }
 
-    public void run(PlayerRun playerRun){
-        switch (playerRun){
-            case UP:
+    /**
+     *    move playerPlane
+     * @param status : 1 : up, 2 : right, 3 : left, 4 : right
+     */
+    public void run(int status){
+        switch (status){
+            case 1 :
                 //move up
                 if(y - SPEED - HEIGHT> 0)
                 y -= SPEED;
                 break;
 
-            case DOWN:
+            case 2 :
                 //move down
                 if(y + SPEED < GameWindow.SCREEN_HEIGHT - height)
                 y += SPEED;
                 break;
 
-            case LEFT:
+            case 3 :
                 //move left
                 if(x - SPEED > 0) {
                     x -= SPEED;
                 }
                 break;
 
-            case RIGHT:
+            case 4 :
                 //move right
                 if(x + SPEED < GameWindow.SCREEN_WIDTH - width) {
                     x += SPEED;
@@ -45,12 +47,4 @@ public class PlayerPlaneModel extends GameModel{
                 break;
         }
     }
-
-    public void getHit(int damage){
-        hp -= damage;
-        if(hp <= 0){
-            this.Death();
-        }
-    }
-
 }

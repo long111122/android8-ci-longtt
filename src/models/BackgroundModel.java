@@ -10,7 +10,7 @@ public class BackgroundModel {
     private int x2;
     private int y1;
     private int y2;
-    public static int SPEED = 1;
+    private static int SPEED = 1;
     private int width = GameWindow.SCREEN_WIDTH;
     private int height = GameWindow.SCREEN_HEIGHT;
 
